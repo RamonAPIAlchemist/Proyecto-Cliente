@@ -9,11 +9,11 @@ import Lista from './Screens/Lista';
 function Navegacion() {
     return (
         <NavigationContainer>
-        
+
             <StackDetalles>
 
             </StackDetalles>
-        
+
         </NavigationContainer>
     );
 }
@@ -21,13 +21,11 @@ const Stack = createStackNavigator();
 
 function StackDetalles() {
     return (
-            <Stack.Navigator initialRouteName="Home">
-                <Stack.Screen name="Home" component={Lista} />
-                <Stack.Screen name="Lista" component={Lista} />
-                <Stack.Screen name="Formulario" component={Formulario} />
-
-
-            </Stack.Navigator>
+        <Stack.Navigator initialRouteName="Lista">
+            <Stack.Screen name="Home" component={Lista} />
+            <Stack.Screen name="Lista" component={Lista} />
+            <Stack.Screen name="Formulario" component={Formulario} />
+        </Stack.Navigator>
     )
 }
 

@@ -5,13 +5,13 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 
 
-export default function ClientList() {
+export default function Lista() {
 
-    const navigate = useNavigation();
-    const handleDelete = (idx) => {
+    const navigation = useNavigation();
+    const eliminar = (index) => {
         Alert.alert(
-            'Confirmar eliminación de cliente',
-            '¿Estás seguro de que quieres eliminar este cliente?',
+            'Confirmar aliminacion',
+            'Estas seguro de que deseas elimanar este cliente?',
             [
                 {
                     text: 'Cancelar',
@@ -21,9 +21,9 @@ export default function ClientList() {
                     text: 'Eliminar',
                     style: 'destructive',
                     onPress: () => {
-                        const updatedList = [...clients];
-                        updatedList.splice(idx, 1);
-                        setClients(updatedList);
+                        const nuevaLista = [...clientes];
+                        nuevaLista.splice(index, 1);
+                        setClientes(nuevaLista);
                     }
                 },
             ],
@@ -31,70 +31,67 @@ export default function ClientList() {
         );
     }
 
-    const addNewClient = (newClient) => {
-        setClients([newClient, ...clients])
+    const guardarNuevo = (nuevo) => {
+        setClientes([nuevo, ...clientes])
     }
-    
-    const [clients, setClients] = useState([
+
+    const [clientes, setClientes] = useState([
+
+
         {
-            idNumber: '1111',
-            firstName: 'Juan',
-            lastName: 'Pérez',
-            birthDate: '01/01/1990',
-            gender: 'Masculino'
+            Ncedula: '121-190401-1010P',
+            Nnombres: 'Arlinton Ramon',
+            Napellidos: 'Mayorga Marin',
+            Nfechanac: '190401',
+            Nsexo: 'Masculino'
+
         },
-        {
-            idNumber: '2222',
-            firstName: 'María',
-            lastName: 'Gómez',
-            birthDate: '15/05/1985',
-            gender: 'Femenino'
-        }
+
+        
+
+
     ]);
+
+
+
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity 
-                style={styles.addButton} 
-                onPress={() => navigate.navigate('Formulario', { addNewClient })} 
-            >
+            <TouchableOpacity style={styles.botonADD} onPress={() => navigation.navigate('Formulario', { guardarNuevo })} >
+
                 <FontAwesome5 name="user-plus" size={24} color="black" />
             </TouchableOpacity>
-            
-            <Text style={styles.title}> Registro de Clientes </Text>
+            <Text style={styles.titulo}> Lista de clientes </Text>
 
-            {clients.length === 0 ? (
-                <Text style={styles.emptyMessage}> No hay clientes registrados</Text>
+            {clientes.length == 0 ? (
+                <Text style={styles.mensaje}> No hay clientes</Text>
+
             ) : (
-                <ScrollView style={styles.scrollContainer}>
-                    {clients.map((client, index) => (
+
+                <ScrollView style={styles.scroll}>
+                    {clientes.map((clientes, index) => (
                         <View key={index} style={styles.card}>
-                            <TouchableOpacity 
-                                style={styles.deleteButton} 
-                                onPress={() => handleDelete(index)} 
-                            >
-                                <FontAwesome5 name="trash" size={20} color="black" />
+
+                            <Text style={styles.label}> Cedula: <Text style={styles.valor}> {clientes.Ncedula} </Text> </Text>
+
+                            <TouchableOpacity style={styles.botone}
+                                onPress={eliminar} >
+                                <FontAwesome5 name="trash" size={24} color="black" />
                             </TouchableOpacity>
 
-                            <Text style={styles.label}> Cédula: 
-                                <Text style={styles.value}> {client.idNumber} </Text>
-                            </Text>
-                            <Text style={styles.label}> Nombre: 
-                                <Text style={styles.value}> {client.firstName} </Text>
-                            </Text>
-                            <Text style={styles.label}> Apellidos: 
-                                <Text style={styles.value}> {client.lastName} </Text>
-                            </Text>
-                            <Text style={styles.label}> Fecha nacimiento: 
-                                <Text style={styles.value}> {client.birthDate} </Text>
-                            </Text>
-                            <Text style={styles.label}> Género: 
-                                <Text style={styles.value}> {client.gender} </Text>
-                            </Text>
+                            <Text style={styles.label}> Nombre: <Text style={styles.valor}> {clientes.Nnombres} </Text> </Text>
+                            <Text style={styles.label}> Apellidos: <Text style={styles.valor}> {clientes.Napellidos} </Text> </Text>
+                            <Text style={styles.label}> Fecha de nacimiento: <Text style={styles.valor}> {clientes.Nfechanac} </Text> </Text>
+                            <Text style={styles.label}> Sexo: <Text style={styles.valor}> {clientes.Nsexo} </Text> </Text>
                         </View>
+
                     ))}
+
                 </ScrollView>
+
             )}
+
+
         </View>
     );
 }
@@ -102,39 +99,40 @@ export default function ClientList() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#E6F7E6',
     },
-    title: {
+    titulo: {
         fontSize: 25,
         paddingBottom: 10,
         fontWeight: 'bold',
         color: '#4F8B2E',
-        paddingTop: 20
+        paddingTop: 20,
     },
     card: {
-        height: 140,
+        height: 130,
         width: 360,
         backgroundColor: '#C2E8C2',
-        alignItems: 'flex-start',
+        alignItems: 'left',
         justifyContent: 'center',
         borderRadius: 5,
         marginBottom: 10,
-        position: 'relative',
-        paddingHorizontal: 10
+        position: 'relative'
     },
     label: {
-        color: '#000000',
-        marginLeft: 5,
-        paddingTop: 2,
-        fontSize: 15
+        color: '#00000',
+        marginLeft: 10,
+        paddingTop: 1,
+
     },
-    value: {
-        color: '#358B47',
-        fontWeight: '500'
+    valor: {
+        color: '#358B47'
+
     },
-    addButton: {
+    botonADD: {
+        position: 'absolute',
+        top: 5,
         height: 50,
         backgroundColor: '#E6F7E6',
         width: 50,
@@ -151,24 +149,15 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.22,
         shadowRadius: 2.22,
+
         elevation: 3,
+
     },
-    deleteButton: {
+    botone: {
         position: 'absolute',
         top: 10,
         right: 10,
-        width: 30,
-        height: 30,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    emptyMessage: {
-        fontSize: 18,
-        color: '#666',
-        marginTop: 20
-    },
-    scrollContainer: {
-        width: '100%',
-        paddingHorizontal: 10
+        width: 32,
+        height: 32,
     }
 });

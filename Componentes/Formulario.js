@@ -1,160 +1,168 @@
-import { Text, View, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, TextInput, Button, Alert, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
+
 import { Picker } from '@react-native-picker/picker';
 
-function ClientForm({ route, navigation }) {
+
+
+function Formulario({ route, navigation }) {
   const { guardarNuevo } = route.params;
-  const [idNumber, setIdNumber] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [birthDate, setBirthDate] = useState('');
-  const [gender, setGender] = useState('');
+  const [cedula, setCedula] = useState('');
+  const [nombres, setNombres] = useState('');
+  const [apellidos, setApellidos] = useState('');
+  const [fechaNacimiento, SetFechaNacimiento] = useState('');
+  const [sexo, setSexo] = useState('');
 
-  const handleSubmit = () => {
-    if (!idNumber || !firstName) return;
-    
-    const newClient = {
-      Ncedula: idNumber,
-      Nnombres: firstName,
-      Napellidos: lastName,
-      Nfechanac: birthDate,
-      Nsexo: gender,
-    };
+  const guardar = () => {
+    if (!cedula || !nombres,
+      !apellidos,!fechaNacimiento,!sexo 
 
-    guardarNuevo(newClient);
-    Alert.alert(
-      'Registro exitoso',
-      `Datos del cliente:\n
-      Cédula: ${idNumber}\n
-      Nombres: ${firstName}\n
-      Apellidos: ${lastName}\n
-      Fecha Nacimiento: ${birthDate}\n
-      Sexo: ${gender}`
+    ) return null;
+    const nuevoCliente = {
+      Ncedula: cedula,
+      Nnombres: nombres,
+      Napellidos: apellidos,
+      Nfechanac: fechaNacimiento,
+      Nsexo: sexo,
+    }
+
+
+    guardarNuevo(nuevoCliente);
+    Alert.alert('Datos almacenados', `
+    Cédula: ${cedula}
+    Nombres: ${nombres}
+    Apellidos: ${apellidos}
+    Fecha Nacimiento: ${fechaNacimiento}
+    Sexo: ${sexo}
+`
     );
 
-    // Reset form
-    setIdNumber('');
-    setFirstName('');
-    setLastName('');
-    setBirthDate('');
-    setGender('');
+    setCedula('');
+    setNombres('');
+    setApellidos('');
+    SetFechaNacimiento('');
+    setSexo('');
     navigation.goBack();
-  };
+
+
+  }
+
 
   return (
-    <View style={styles.formContainer}>
-      <Text style={styles.formTitle}>Datos del Cliente</Text>
+    <View style={styles.container}>
+      <Text style={styles.titulo}> Registro de datos del cliente  </Text>
 
-      <View style={styles.inputGroup}>
-        <Text style={styles.inputLabel}>Cédula</Text>
+      <View style={styles.containerInput}>
+
+        <Text style={styles.label}> Cedula </Text>
         <TextInput
-          style={styles.textInput}
-          value={idNumber}
-          onChangeText={setIdNumber}
-          placeholder="Ej: 001-1234567-8"
-          keyboardType="numeric"
+          style={styles.input}
+          value={cedula}
+          onChangeText={setCedula}
+          placeholder='Ej: 365-440955-0002h'
         />
 
-        <Text style={styles.inputLabel}>Nombres</Text>
+        <Text style={styles.label}>Nombres: </Text>
         <TextInput
-          style={styles.textInput}
-          value={firstName}
-          onChangeText={setFirstName}
-          placeholder="Ej: María José"
-        />
+          style={styles.input}
+          value={nombres}
+          onChangeText={setNombres}
+          placeholder='Ej: Juan carlos '>
+        </TextInput>
 
-        <Text style={styles.inputLabel}>Apellidos</Text>
+        <Text style={styles.label}>Apellidos</Text>
         <TextInput
-          style={styles.textInput}
-          value={lastName}
-          onChangeText={setLastName}
-          placeholder="Ej: Rodríguez Pérez"
-        />
+          style={styles.input}
+          value={apellidos}
+          onChangeText={setApellidos}
+          placeholder='Apellidos'
+        ></TextInput>
 
-        <Text style={styles.inputLabel}>Fecha de Nacimiento</Text>
+        <Text style={styles.label}>Fecha de nacimiento</Text>
         <TextInput
-          style={styles.textInput}
-          value={birthDate}
-          onChangeText={setBirthDate}
-          placeholder="AAAA-MM-DD"
-        />
+          style={styles.input}
+          value={fechaNacimiento}
+          onChangeText={SetFechaNacimiento}
+          placeholder='YYYY-MM-DD'
+        ></TextInput>
 
-        <Text style={styles.inputLabel}>Género</Text>
-        <View style={styles.genderPicker}>
+
+        <Text style={styles.label}>Sexo</Text>
+        <View style={styles.picker}>
           <Picker
-            selectedValue={gender}
-            onValueChange={(itemValue) => setGender(itemValue)}
+            selectedValue={sexo}
+            onValueChange={(itemValue) => setSexo(itemValue)}
           >
-            <Picker.Item label="Seleccione..." value="" />
+            <Picker.Item label="Seleccione.." value="" />
             <Picker.Item label="Masculino" value="Masculino" />
             <Picker.Item label="Femenino" value="Femenino" />
           </Picker>
         </View>
+
       </View>
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity 
-          style={styles.submitButton}
-          onPress={handleSubmit}
-        >
-          <Text style={styles.buttonText}>Guardar Datos</Text>
+      <View style={styles.botonGuardar}>
+        <TouchableOpacity style={styles.boton}
+          onPress={guardar}>
+          <Text style={styles.texto}  >Guardar</Text>
         </TouchableOpacity>
       </View>
+
     </View>
-  );
+
+
+  )
+
 }
 
-export default ClientForm;
+export default Formulario;
 
 const styles = StyleSheet.create({
-  formContainer: {
-    flex: 1,
+  container: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#E6F7E6',
-    padding: 20
+    flex: 1,
+    backgroundColor: '#E6F7E6'
+
   },
-  inputGroup: {
-    width: '100%',
-    maxWidth: 300
+  containerInput: {
+
   },
-  inputLabel: {
-    fontWeight: '600',
-    marginTop: 12,
-    color: '#333'
+
+  label: {
+    fontWeight: 'bold',
+    marginTop: 10,
+    width: 300,
   },
-  textInput: {
+  input: {
     borderWidth: 1,
-    borderColor: '#4F8B2E',
-    padding: 12,
-    marginTop: 6,
-    borderRadius: 6,
-    height: 50,
-    backgroundColor: '#FFF'
+    borderColor: '#358B47',
+    padding: 8,
+    marginTop: 5,
+    borderRadius: 5,
+    width: 300,
+    height: 55
   },
-  genderPicker: {
+  picker: {
     borderWidth: 1,
-    borderRadius: 6,
-    borderColor: '#4F8B2E',
-    marginTop: 6,
-    marginBottom: 20,
-    backgroundColor: '#FFF'
+    borderRadius: 5,
+    borderColor: '#999',
+    marginTop: 5,
+    marginBottom: 15,
+    width: 300,
+    borderColor: '#358B47',
   },
-  formTitle: {
-    fontSize: 24,
-    paddingBottom: 15,
-    fontWeight: '700',
+  titulo: {
+    fontSize: 25,
+    paddingBottom: 10,
+    fontWeight: 'bold',
     color: '#4F8B2E',
-    textAlign: 'center',
-    marginBottom: 10
+    alignContent: 'center'
   },
-  buttonContainer: {
-    marginVertical: 15,
-    width: '100%',
-    alignItems: 'center'
+  botonGuardar: {
+    margin: 10,
   },
-  submitButton: {
+  boton: {
     backgroundColor: '#358B47',
     height: 50,
     width: 300,
@@ -164,15 +172,17 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 1,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 4,
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
+
   },
-  buttonText: {
-    color: '#FFF',
-    fontWeight: '600',
-    fontSize: 18
+  texto: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 20
   }
-});
+})
